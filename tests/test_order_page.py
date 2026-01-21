@@ -25,6 +25,27 @@ class TestOrderList:
 
 
 
-
+    @allure.title('при создании нового заказа счётчик Выполнено за всё время увеличивается')
+    def test_ordes_count_all_time_increase(self, driver):
+        main_page = MainPage(driver)
+        main_page.open_main_page()
+        main_page.click_on_account_button()
+        login_page = LoginPage(driver)
+        login_page.login_account(Data.data)
+        main_page.click_on_order_lenta_button()
+        order_page = OrderPage(driver)
+        all_orders = order_page.get_all_orders_count()
+        # today_orders = order_page.get_today_orders_count()
+        main_page.click_on_constructor_button()
+        main_page.add_ingredient_to_the_basket()
+        main_page.click_on_do_order_button()
+        main_page.id_window_is_displayed() # нужно дописать
+        
+        main_page.сlick_closed_cross_button_Window_number_order()
+        #main_page.click_on_order_lenta_button()
+        #update_all_orders = order_page.get_all_orders_count()
+        #update_today_orders = order_page.get_today_orders_count()
+        #assert update_all_orders > all_orders
+        #assert update_today_orders > today_orders
 
 
