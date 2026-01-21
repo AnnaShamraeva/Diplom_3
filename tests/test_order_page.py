@@ -47,7 +47,7 @@ class TestOrderList:
         assert update_today_orders > today_orders
 
     @allure.title('После оформления заказа его номер появляется в разделе В работе')
-    def test_orde_in_work(self, driver):
+    def test_order_in_work(self, driver):
         main_page = MainPage(driver)
         main_page.open_main_page()
         main_page.click_on_account_button()
