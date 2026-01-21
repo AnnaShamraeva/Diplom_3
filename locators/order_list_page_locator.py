@@ -13,6 +13,4 @@ class OrderListPageLocators:
    TODAY_ORDERS_COUNT =(
       By.XPATH, 
       "//p[text()='Выполнено за сегодня:']/following-sibling::p[contains(@class,'digits-large')]"
-   )
-   
-   # "Выполнено за сегодня:"
+   )   # "Выполнено за сегодня:"

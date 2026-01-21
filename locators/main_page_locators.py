@@ -5,8 +5,7 @@ class MainPageLocators:
     MODAL_OVERLAY = (
         By.CSS_SELECTOR, 
         "div.Modal_modal__overlay, div.Modal_modal__loading__3534A, div[data-test='modal-overlay']"
-        ) # Модальное окно (overlay) "//div[contains(@class,'Modal_modal_overlay')]" было
-    # <img src="./static/media/loading.89540200.svg" class=alt="loading animation"> стало
+        ) # Модальное окно (overlay) 
     
     ACCOUNT_BUTTON = (
         By.XPATH,
@@ -52,6 +51,7 @@ class MainPageLocators:
         By.XPATH,
         "//div[contains(@class,'Modal')]//p[normalize-space(.)='идентификатор заказа']",
     )  # Окно с идентификатором заказа
+
     # Кнопка закрыть карточку с номером заказа (уникальный локатор с контекстом модального окна заказа)
     CLOSE_ORDER_NUMBER_BUTTUN = (
         By.XPATH,
@@ -61,4 +61,4 @@ class MainPageLocators:
         By.XPATH,
         "//h2[@class='Modal_modal__title_shadow__3ikwq Modal_modal__title__2L34m text text_type_digits-large mb-8']" 
         
-    )  # Номер заказа"//h2[contains(@class, 'Modal_modal__title') and contains(@class, 'text_type_digits-large')]"
+    )  # Номер заказа
