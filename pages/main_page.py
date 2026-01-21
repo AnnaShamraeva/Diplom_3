@@ -1,5 +1,5 @@
 import allure
-
+import time
 from curl import Url
 from locators.main_page_locators import MainPageLocators
 
@@ -21,8 +21,13 @@ class MainPage(BasePage):
         self.wait_until_element_to_be_clickable(MainPageLocators.CONSTRUCTOR_BUTTON)
         self.click_on_element(MainPageLocators.CONSTRUCTOR_BUTTON)
 
+    @allure.step("Ожидание закрытия модального окна")
+    def wait_modal_overlay_closed(self):
+        self.wait_until_element_invisible(MainPageLocators.MODAL_OVERLAY)
+
     @allure.step("Нажать на кнопку Лента заказов")
     def click_on_order_lenta_button(self):
+        self.wait_modal_overlay_closed()
         self.wait_until_element_to_be_clickable(MainPageLocators.ORDER_LENTA_BUTTON)
         self.click_on_element(MainPageLocators.ORDER_LENTA_BUTTON)
 
@@ -40,8 +45,7 @@ class MainPage(BasePage):
     def window_text(self):
         return self.get_text(MainPageLocators.WINDOW_DETAILS_INGREDIENT)
 
-        # Закрыть окно кликнув на крестик
-
+    # Закрыть окно кликнув на крестик
     @allure.step("Закрыть окно Ингредиента нажав на крестик")
     def click_Window_closed_cross_button(self):
         self.wait_element(MainPageLocators.CLOSE_CARD_BUTTUN)
@@ -69,13 +73,19 @@ class MainPage(BasePage):
         self.wait_until_element_to_be_clickable(
             MainPageLocators.CLOSE_ORDER_NUMBER_BUTTUN
         )
-        self.wait_element(MainPageLocators.ORDER_ID)
-        return self.element_is_displayed(MainPageLocators.ORDER_ID)
+        time.sleep(5)
+        self.wait_element(MainPageLocators.ORDER_NUMBER) # ORDER_ID
+        return self.element_is_displayed(MainPageLocators.ORDER_NUMBER) # ORDER_ID
 
     # Закрыть окно кликнув на крестик
     @allure.step("Закрыть окно Номер заказа нажав на крестик")
     def сlick_closed_cross_button_Window_number_order(self):
         self.wait_element(MainPageLocators.CLOSE_ORDER_NUMBER_BUTTUN)
         self.click_via_js(MainPageLocators.CLOSE_ORDER_NUMBER_BUTTUN)
-
-        # order_number = main_page.get_order_number() # нужно дописать
+   
+    # Получить номер заказа
+    @allure.step("Получить номер заказа")
+    def get_order_number(self):
+        self.wait_until_element_invisible(MainPageLocators.MODAL_OVERLAY)
+        self.find_element_with_wait(MainPageLocators.ORDER_NUMBER)
+        return self.get_text(MainPageLocators.ORDER_NUMBER)

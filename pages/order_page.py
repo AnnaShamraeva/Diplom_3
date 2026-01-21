@@ -17,3 +17,8 @@ class OrderPage(BasePage):
     def get_order_in_work(self):
         self.wait_element(OrderListPageLocators.ORDER_IN_WORK)
         return self.get_text(OrderListPageLocators.ORDER_IN_WORK)
+    
+    @allure.step('Получить номер последнего заказа')
+    def get_last_order_number(self):
+        self.wait_element(OrderListPageLocators.LAST_ORDER)
+        return self.get_text(OrderListPageLocators.LAST_ORDER)

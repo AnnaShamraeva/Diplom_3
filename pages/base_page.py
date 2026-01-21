@@ -2,6 +2,13 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from seletools.actions import drag_and_drop
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import (
+    StaleElementReferenceException,
+    ElementClickInterceptedException,
+)
+
+from selenium.webdriver.common.by import By
 
 
 class BasePage:
@@ -28,9 +35,6 @@ class BasePage:
     def wait_element(self, locator):
         WebDriverWait(self.driver, 45).until(EC.visibility_of_element_located(locator))
 
-    # Нажать на элемент +
-    def click_on_element(self, locator):
-        self.driver.find_element(*locator).click()
 
     # Подождать когда элемент станет кликабелен +
     def wait_until_element_to_be_clickable(self, locator):
@@ -40,11 +44,7 @@ class BasePage:
     def get_text(self, locator):
         return self.driver.find_element(*locator).text
 
-    # Добавить в корзину
-    # def add_to_the_basket(self, element, endpoint):
-    # element = self.driver.find_element(*element) # находит элемент, который нужно перетащить
-    # endpoint = self.driver.find_element(*endpoint) # находит элемент-приёмник (корзину)
-    # ActionChains(self.driver).drag_and_drop(element, endpoint).perform() # взятие элемента и перенос его в место назначения
+   
 
     # Поиск элемента с ожиданием
     def find_element_with_wait(self, locator):
@@ -77,3 +77,50 @@ class BasePage:
             EC.presence_of_element_located(locator)
         )
         self.driver.execute_script("arguments[0].click();", element)
+
+    # Ожидание исчезновения элемента
+    def wait_until_element_invisible(self, locator):
+        WebDriverWait(self.driver, 25).until(
+            EC.invisibility_of_element_located(locator)
+        )
+
+
+
+    def click_on_element(self, locator: tuple, timeout: int = 12) -> None:
+        """Оптимизированный метод клика с обработкой перекрытий и устаревших элементов."""
+        wait = WebDriverWait(self.driver, timeout)
+    
+        try:
+            elem = wait.until(EC.element_to_be_clickable(locator))
+            elem.click()
+            return
+
+        except StaleElementReferenceException:
+        # Элемент устарел — пробуем найти заново
+            elem = wait.until(EC.element_to_be_clickable(locator))
+            elem.click()
+            return
+
+        except ElementClickInterceptedException:
+        # Если элемент перекрыт (Overlay)
+            overlay_locators = [
+                (By.CSS_SELECTOR, "div.Modal_modal__contentBox__sCy8X"),
+                (By.CSS_SELECTOR, "div.Modal_modal_overlay__x2ZCr"),
+            ]
+        
+            for o in overlay_locators:
+                try:
+                # Ожидаем исчезновения оверлея
+                    WebDriverWait(self.driver, 3).until(EC.invisibility_of_element_located(o))
+                    elem = wait.until(EC.element_to_be_clickable(locator))
+                    elem.click()
+                    return
+                except Exception:
+                    continue
+
+        # Крайняя мера: клик через JavaScript, если обычный клик заблокирован
+            elem = wait.until(EC.presence_of_element_located(locator))
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView(true); arguments[0].click();", 
+                elem
+            )

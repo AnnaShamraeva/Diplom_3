@@ -1,6 +1,7 @@
 import allure
 from .base_page import BasePage
 from locators.login_page_locators import LoginPageLocators
+from locators.main_page_locators import MainPageLocators
 from curl import Url
 
 
@@ -18,8 +19,24 @@ class LoginPage(BasePage):
         self.wait_element(LoginPageLocators.LOGIN_BUTTON)
         self.click_on_element(LoginPageLocators.LOGIN_BUTTON)
 
-    @allure.step('Вход в аккаунт')
+    #@allure.step("Ожидание успешного входа в аккаунт")
+    #def wait_for_login_success(self):
+
+        # Ждём появления элемента главной страницы (конструктора)
+        #self.wait_element(MainPageLocators.TEXT_CONCTUCTOR_BURGER)
+        # Ждём исчезновения модального окна, если оно есть
+        #self.wait_until_element_invisible(MainPageLocators.MODAL_OVERLAY)
+
+    #@allure.step("Вход в аккаунт")
+    #def login_account(self, data):
+        #self.input_email(data["email"])
+        #self.input_password(data["password"])
+        #self.click_login_button()
+        #self.click_login_button()
+        #self.wait_for_login_success()
+    
+    @allure.step("Вход в аккаунт")
     def login_account(self, data):
-        self.input_email(data['email'])
-        self.input_password(data['password'])
+        self.input_email(data["email"])
+        self.input_password(data["password"])
         self.click_login_button()

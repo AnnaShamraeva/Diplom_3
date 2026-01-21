@@ -2,6 +2,12 @@ from selenium.webdriver.common.by import By
 
 
 class MainPageLocators:
+    MODAL_OVERLAY = (
+        By.CSS_SELECTOR, 
+        "div.Modal_modal__overlay, div.Modal_modal__loading__3534A, div[data-test='modal-overlay']"
+        ) # Модальное окно (overlay) "//div[contains(@class,'Modal_modal_overlay')]" было
+    # <img src="./static/media/loading.89540200.svg" class=alt="loading animation"> стало
+    
     ACCOUNT_BUTTON = (
         By.XPATH,
         "//p[@class='AppHeader_header__linkText__3q_va ml-2' and normalize-space(.)='Личный Кабинет']",
@@ -51,3 +57,8 @@ class MainPageLocators:
         By.XPATH,
         "//div[contains(@class,'Modal') and .//p[contains(text(),'идентификатор заказа')]]//button[contains(@class,'Modal_modal__close')]",
     )  # Кнопка закрытия карточки с номером заказа
+    ORDER_NUMBER = (
+        By.XPATH,
+        "//h2[@class='Modal_modal__title_shadow__3ikwq Modal_modal__title__2L34m text text_type_digits-large mb-8']" 
+        
+    )  # Номер заказа"//h2[contains(@class, 'Modal_modal__title') and contains(@class, 'text_type_digits-large')]"
