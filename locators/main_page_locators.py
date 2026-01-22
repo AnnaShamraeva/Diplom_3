@@ -62,3 +62,10 @@ class MainPageLocators:
         "//h2[@class='Modal_modal__title_shadow__3ikwq Modal_modal__title__2L34m text text_type_digits-large mb-8']" 
         
     )  # Номер заказа
+    OVERLAY_LOCATORS_ONE = (
+            By.CSS_SELECTOR, 
+            "div.Modal_modal__contentBox__sCy8X"
+            )
+    OVERLAY_LOCATORS_TOO = (
+          By.CSS_SELECTOR, "div.Modal_modal_overlay__x2ZCr"
+          )
